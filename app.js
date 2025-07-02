@@ -62,7 +62,7 @@ app.use((req, res, next) => {
 });
 
 app.get("/", (req, res) => {
-    res.send("Hi, i am Root");
+    res.redirect("/listings");
 });
 
 // app.get("/demoUser",async (req,res)=>{
