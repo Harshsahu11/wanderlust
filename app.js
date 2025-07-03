@@ -55,6 +55,7 @@ async function main() {
     await mongoose.connect(MONGO_URL);
 }
 app.use((req, res, next) => {
+    res.locals.req = req;
     res.locals.success = req.flash("success");
     res.locals.error = req.flash("error");
     res.locals.currUser = req.user;
