@@ -16,9 +16,7 @@ router.get("/new", isLoggedIn,listingController.renderNewForm );
 router.get("/:id", wrapAsync(listingController.showListing));
 
 //create Route
-router.post("/", validateListing,
-    isLoggedIn,
-    wrapAsync(listingController.createlisting));
+router.post("/", validateListing,isLoggedIn,wrapAsync(listingController.createlisting));
 
 //Edit Route
 router.get("/:id/edit", isLoggedIn, isOwner, wrapAsync(listingController.editListing));
