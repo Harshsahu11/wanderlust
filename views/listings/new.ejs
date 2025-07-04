@@ -4,7 +4,7 @@
     <br />
     <h3>Create a New Listing</h3>
     <br /><br />
-    <form action="/listings" method="POST" class="needs-validation" novalidate>
+    <form action="/listings" method="POST" class="needs-validation" novalidate enctype="multipart/form-data">
       <div class="mb-3">
         <label for="title" class="form-label">Enter Title</label>
         <input
@@ -26,12 +26,12 @@
         ></textarea>
         <div class="invalid-feedback">Please enter description</div>
       </div>
+
       <div class="mb-3">
-        <label for="image" class="form-label">Enter Image</label>
+        <label for="image" class="form-label">Upload Listing Image</label>
         <input
           name="listing[image][url]"
-          placeholder="Enter image URL/link"
-          type="text"
+          type="file"
           class="form-control"
         />
       </div>

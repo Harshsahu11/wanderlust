@@ -1,3 +1,7 @@
+if(process.env.NODE_ENV != "production"){
+    require('dotenv').config();
+}
+
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -20,6 +24,7 @@ const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
+
 app.use(methodoverride("_method"));
 app.engine('ejs', ejsmate);
 app.use(express.static(path.join(__dirname, "/public")));
@@ -69,7 +74,6 @@ app.get("/", (req, res) => {
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/",userRouter);
-
 
 app.use((err, req, res, next) => {
     let { statusCode = 500, message = "Something went wrong" } = err;
