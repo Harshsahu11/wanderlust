@@ -1,6 +1,7 @@
 const { listingSchema ,reviewSchema} = require("./schema.js");
 const ExpressError = require("./utils/ExpressError.js");
 const Listing = require("../WanderLust/models/listing.js");
+const Review = require("../WanderLust/models/review.js");
 
 module.exports.isLoggedIn= (req,res,next)=>{
     // console.log(req.path,"..",req.originalUrl);
@@ -52,4 +53,15 @@ module.exports.validateReview = (req, res, next) => {
     } else {
         next();
     }
+};
+
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+    const { id,reviewId } = req.params;
+    const review = await Review.findById(reviewId);
+    if (!review.author.equals(res.locals.currUser._id)) {
+        req.flash("error", "You don't have permission to do that!");
+        return res.redirect(`/listings/${id}`);
+    }
+    next();
 };
