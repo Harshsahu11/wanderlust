@@ -40,7 +40,7 @@ const store = MongoStore.create({
     touchAfter: 24*3600,
 });
 
-store.on("error",()=>{
+store.on("error",(err)=>{
     console.log("Error in MOngo Session store",err);
 });
 
@@ -93,10 +93,19 @@ app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/",userRouter);
 
+// app.use((err, req, res, next) => {
+//     let { statusCode = 500, message = "Something went wrong" } = err;
+//     res.render("error.ejs", { message });
+// });
+
 app.use((err, req, res, next) => {
-    let { statusCode = 500, message = "Something went wrong" } = err;
-    res.render("error.ejs", { message });
+  if (res.headersSent) {
+    return next(err);
+  }
+  const { statusCode = 500, message = "Something went wrong" } = err;
+  res.status(statusCode).render("error.ejs", { message });
 });
+
 app.listen(8080, () => {
     console.log(`Server working on 8080`);
 });
