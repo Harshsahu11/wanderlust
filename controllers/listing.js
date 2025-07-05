@@ -1,9 +1,32 @@
 const Listing = require("../models/listing");
 
 module.exports.index = async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
+    // const allListings = await Listing.find({});
+    // res.render("listings/index.ejs", { allListings });
+  const { q } = req.query;
+  let allListings;
+
+  if (q) {
+    const searchRegex = new RegExp(q, 'i'); // case-insensitive regex
+
+    // Try to parse number for price search
+    const priceQuery = !isNaN(Number(q)) ? Number(q) : null;
+
+    allListings = await Listing.find({
+      $or: [
+        { title: searchRegex },
+        { location: searchRegex },
+        { country: searchRegex },
+        ...(priceQuery !== null ? [{ price: priceQuery }] : []),
+      ],
+    });
+  } else {
+    allListings = await Listing.find({});
+  }
+
+  res.render("listings/index.ejs", { allListings });
 };
+
 
 module.exports.renderNewForm = (req, res) => {
     console.log(req.user);
