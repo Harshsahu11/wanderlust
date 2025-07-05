@@ -1,7 +1,7 @@
 const { listingSchema ,reviewSchema} = require("./schema.js");
 const ExpressError = require("./utils/ExpressError.js");
-const Listing = require("../WanderLust/models/listing.js");
-const Review = require("../WanderLust/models/review.js");
+const Listing = require("../models/listing.js");
+const Review = require("../models/review.js");
 
 module.exports.isLoggedIn= (req,res,next)=>{
     // console.log(req.path,"..",req.originalUrl);
